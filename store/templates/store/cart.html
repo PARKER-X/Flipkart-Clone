@@ -1,0 +1,65 @@
+{% extends 'store/base.html' %}
+{%load static %}
+{% block content %}
+
+<br>
+<br>
+
+<div class="row">
+    
+    <div class="col-sm-6">
+      
+      <div class="card">
+        {% for item in items %}
+        <div class="card-body">
+        <div class="div1" style="display: flex;">
+          <img src="{{item.product.image.url}}" height='80px' width="80px" alt="">
+          
+          <div class="div" style="padding-left: 30px;">
+            <h5 class="card-title">{{item.product.name}}</h5>
+            <br>
+            <p>Best quality</p>
+          </div>
+        </div>
+          
+          
+          <div style="display: flex; align-items:center;">
+            <button type="button update-cart" class="btn btn-primary update-cart" data-product = "{{item.product.id}}"  data-action="add">+</button>
+            <p class="card-text" style="padding: 1rem;" > {{item.quantity}} </p>
+            <button type="button update-cart" class="btn btn-primary update-cart" data-product = "{{item.product.id}}" data-action="remove">-</button>
+          </div>
+          <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
+        </div>
+        
+        {% endfor %}
+      </div>
+      
+    </div>
+    
+    
+    
+    <div class="col-sm-6" style="display: sticky;">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Price Detail</h5>
+          <hr>
+          <p class="card-text"><h6>price({{order.get_cart_items}} items) <span style="padding-left: 10rem;"> ₹{{order.get_cart_total}} </span> </h6> </p>
+          <p class="card-text"><h6>Discount <span style="padding-left: 14rem; color:green;" > ₹0 </span> </h6> </p>
+          {% if order.get_cart_total < 10 %}
+          <p class="card-text"><h6>Delivery Charges <span style="padding-left: 10rem; color:green;" > Free </span> </h6> </p> <hr>
+          {% else %} <p class="card-text"><h6>Delivery Charges <span style="padding-left: 10rem; color:green;" > ₹100 </span> </h6> </p> <hr>
+          {% endif %}
+          <p class="card-text"><h5>Total Amount <span style="padding-left: 10rem; color:green;" > ₹{{order.new_cart_total}} </span> </h5> </p>
+          
+         
+
+          
+          <a href="{% url 'checkout' %}" class="btn btn-primary">Place Order</a>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+<br>
+<br>
+{%endblock%}

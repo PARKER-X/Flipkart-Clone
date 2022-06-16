@@ -1,0 +1,31 @@
+{% extends 'store/base.html' %}
+{%load static%}
+{% block content %}
+
+<style>
+    #hela{
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+</style>
+<div class="row">
+{% for product  in cloths %}
+
+<div class="col-lg-4" id="hela">
+    <img src="{{product.image.url}}" alt="" srcset="" height='200px' class="im">
+    <div class="box-element product">
+        <h6><strong>{{product.name}}</strong></h6>
+        <hr>
+        <button type="button" data-product={{product.id}} data-action="add" class="btn btn-warning update-cart">Add to
+            cart</button>
+        <a href="{% url 'product_detail' product.pk %}" class="btn btn-success"> View</a>
+        <h4 style="display: inline-block; float: right;">{{product.price}}</h4>
+
+    </div>
+</div>
+<br>
+
+{% endfor %}
+</div>
+
+{% endblock content %}

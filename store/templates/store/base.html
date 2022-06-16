@@ -1,0 +1,370 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="{%static 'css/style.css' %}">
+
+  <title>Hello, world!</title>
+</head>
+
+<body>
+
+
+  <script>
+    var user = '{{request.user}}'
+    function getToken(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    const csrftoken = getToken('csrftoken');
+
+    function getcookie(name) {
+      var cookieArr = document.cookie.split(";");
+
+      for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+        if (name == cookiePair[0].trim()) {
+          return decodeURIComponent(cookiePair[1]);
+        }
+      }
+
+      return null;
+    }
+    var cart = JSON.parse(getcookie('cart'))
+    console.log('Cart', cart)
+    if (cart == undefined) {
+      cart = {}
+      console.log('Cart was created!')
+      document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+    }
+
+  </script>
+
+  <style>
+    #cart-total {
+      position: absolute;
+      top: 1px;
+      right: 12px
+    }
+
+    .site-footer {
+      background-color: #26272b;
+      padding: 45px 0 20px;
+      font-size: 15px;
+      line-height: 24px;
+      color: #737373;
+    }
+
+    .site-footer hr {
+      border-top-color: #bbb;
+      opacity: 0.5
+    }
+
+    .site-footer hr.small {
+      margin: 20px 0
+    }
+
+    .site-footer h6 {
+      color: #fff;
+      font-size: 16px;
+      text-transform: uppercase;
+      margin-top: 5px;
+      letter-spacing: 2px
+    }
+
+    .site-footer a {
+      color: #737373;
+    }
+
+    .site-footer a:hover {
+      color: #3366cc;
+      text-decoration: none;
+    }
+
+    .footer-links {
+      padding-left: 0;
+      list-style: none
+    }
+
+    .footer-links li {
+      display: block
+    }
+
+    .footer-links a {
+      color: #737373
+    }
+
+    .footer-links a:active,
+    .footer-links a:focus,
+    .footer-links a:hover {
+      color: #3366cc;
+      text-decoration: none;
+    }
+
+    .footer-links.inline li {
+      display: inline-block
+    }
+
+    .site-footer .social-icons {
+      text-align: right
+    }
+
+    .site-footer .social-icons a {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      margin-left: 6px;
+      margin-right: 0;
+      border-radius: 100%;
+      background-color: #33353d
+    }
+
+    .copyright-text {
+      margin: 0
+    }
+
+    @media (max-width:991px) {
+      .site-footer [class^=col-] {
+        margin-bottom: 30px
+      }
+    }
+
+    @media (max-width:767px) {
+      .site-footer {
+        padding-bottom: 0
+      }
+
+      .site-footer .copyright-text,
+      .site-footer .social-icons {
+        text-align: center
+      }
+    }
+
+    .social-icons {
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style: none
+    }
+
+    .social-icons li {
+      display: inline-block;
+      margin-bottom: 4px
+    }
+
+    .social-icons li.title {
+      margin-right: 15px;
+      text-transform: uppercase;
+      color: #96a2b2;
+      font-weight: 700;
+      font-size: 13px
+    }
+
+    .social-icons a {
+      background-color: #eceeef;
+      color: #818a91;
+      font-size: 16px;
+      display: inline-block;
+      line-height: 44px;
+      width: 44px;
+      height: 44px;
+      text-align: center;
+      margin-right: 8px;
+      border-radius: 100%;
+      -webkit-transition: all .2s linear;
+      -o-transition: all .2s linear;
+      transition: all .2s linear
+    }
+
+    .social-icons a:active,
+    .social-icons a:focus,
+    .social-icons a:hover {
+      color: #fff;
+      background-color: #29aafe
+    }
+
+    .social-icons.size-sm a {
+      line-height: 34px;
+      height: 34px;
+      width: 34px;
+      font-size: 14px
+    }
+
+    .social-icons a.facebook:hover {
+      background-color: #3b5998
+    }
+
+    .social-icons a.twitter:hover {
+      background-color: #00aced
+    }
+
+    .social-icons a.linkedin:hover {
+      background-color: #007bb6
+    }
+
+    .social-icons a.dribbble:hover {
+      background-color: #ea4c89
+    }
+
+    @media (max-width:767px) {
+      .social-icons li.title {
+        display: block;
+        margin-right: 0;
+        font-weight: 600
+      }
+    }
+
+    @media (max-width:991px) {
+      #cart-total{
+        left:31px;
+        top:175px
+      }
+    }
+  </style>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'store' %}">
+        <img src="{% static 'images/flipkart-logo.png' %}" alt="" width="100px" height="30px">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'store' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+          </li>
+        </ul>
+        <form class="d-flex" action="" method='GET'>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <span class="user">
+          {% if request.user.is_authenticated %}
+          
+          <a href="{% url "logout" %}" style='color:blue;'>Logout</a>
+          {% else %}
+          <a href="{% url "login" %}" style='color:blue;'>Log-in</a>
+          {% endif %}
+          </span>
+
+        <div class="form-inline my-2 my-lg-0">
+
+
+          <p id="cart-total">{{cartItems}}</p>
+
+        </div>
+        <div class="form-inline my-2 my-lg-0">
+
+          <a href="{%url 'cart' %}">
+            <img id="cart-icon" src="{% static 'images/6+cart.png' %}" width="35px" height="30px">
+          </a>
+          <p id="cart-total">{{get_cart_total}}</p>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% block content %}
+
+    {% endblock content %}
+  </div>
+  <hr>
+  <!-- Footer -->
+  <!-- Site footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <h6>About</h6>
+          <p class="text-justify">Flipkart2.0 <i> WANTS TO BE SIMPLE </i> is an initiative to help the buying products
+            online. with affordable price. Flipkart2.0 focuses on providing the most efficient products with variety of
+            products include men and women cloth collection. food items and so many books </p>
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+          <h6>Categories</h6>
+          <ul class="footer-links">
+            <li><a href="{% url 'cloth' %}">Cloth</a></li>
+            <li><a href="{% url 'food' %}">Food</a></li>
+            <li><a href="{% url 'book' %}">Books</a></li>
+            <li><a href="{% url 'cloth' %}">Electronics</a></li>
+
+          </ul>
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+          <h6>Quick Links</h6>
+          <ul class="footer-links">
+            <li><a href="http://scanfcode.com/about/">About Us</a></li>
+            <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+            <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+            <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-sm-6 col-xs-12">
+          <p class="copyright-text">Copyright &copy; 2022 All Rights Reserved by
+            <a href="https://github.com/PARKER-X">Flipkart2.0</a>.
+          </p>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <ul class="social-icons">
+            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+            <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/e18896f13f.js" crossorigin="anonymous"></script>
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  <script src="{%static 'js/cart.js' %}"></script>
+</body>
+
+</html>

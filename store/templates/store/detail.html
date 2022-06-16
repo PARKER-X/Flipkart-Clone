@@ -1,0 +1,12 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<br>
+<h1 class="title">{{ post.name }}</h1>
+<img src="{{post.image.url}}" alt="" srcset="" height='200px' class="im">
+<small> {{post.desc}} </small> <br>
+<h6> <small>Price {{ post.price }}</small>  </h6>
+
+
+<p>{{ post.body }}</p>
+{% endblock %}
